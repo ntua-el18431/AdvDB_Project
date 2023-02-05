@@ -1,2 +1,2 @@
-# AdvDB_Project
+Advanced Database Systems Project
 Big Data Queries
