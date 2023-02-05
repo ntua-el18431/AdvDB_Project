@@ -22,20 +22,16 @@ tripdata_df = df = spark.read.parquet("hdfs://master:9000/taxi_data/*.parquet")
 taxi_lookup_df = spark.read.csv("hdfs://master:9000/taxi_data/taxi+_zone_lookup.csv",header = True)
 tripdata_df.createOrReplaceTempView("tripdata")
 taxi_lookup_df.createOrReplaceTempView("taxilookup")
+
 query_time = 0
 total_time = 0
 
-
+#Iterate over 10 to calculate an average time of execution
 for i in range(0,10):  
- 
+   
+  
   start = time.time()
 
-
-
-
-
-
-  ## Query 1 - DataFrame
 
   joined_df = tripdata_df.join(taxi_lookup_df, tripdata_df.DOLocationID == taxi_lookup_df.LocationID, "inner")
   Filtered = joined_df.filter((month(col("tpep_pickup_datetime")) == 3) & (col("Zone") == "Battery Park"))
@@ -43,12 +39,9 @@ for i in range(0,10):
   Result = Filtered.filter(Filtered['Tip_amount'] == Maxtip.first()['maxtip'])
 
 
-
   Result.collect()
   end = time.time()
-  print("Start is" , start,"End is",end)
   query_time += (end - start)
-  print("Query Time is",query_time)
 
 
 print("Average query time:", query_time/10)
