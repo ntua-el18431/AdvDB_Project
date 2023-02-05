@@ -29,12 +29,8 @@ for i in range(0,10):
   start = time.time()
   
   
-  
-  
-  
   tripdataHour= tripdata_df.withColumn("Hour",hour(tripdata_df.tpep_pickup_datetime))
   tripdataHourDay = tripdataHour.withColumn("Day",dayofweek(tripdataHour.tpep_pickup_datetime))
-  
   tripdataHourDay.createOrReplaceTempView("tripdata")
   
   
