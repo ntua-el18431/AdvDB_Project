@@ -25,24 +25,13 @@ tripdata_files_path_list = ["yellow_tripdata_2022-01.parquet",
 
 tripdata_df = df = spark.read.parquet("hdfs://master:9000/taxi_data/*.parquet")
 tripdata_df.createOrReplaceTempView("tripdata")
+
+
 for i in range(0,10):
-
-    
-  
-  start = time.time()
-  print('Starting now ', start)
-
-  
-  
  
   
-
-
+  start = time.time()
   
-
-  
-  
-  ### QUERY 2 -SQL
   
   query2 = spark.sql(""" SELECT MONTH(tpep_pickup_datetime) as month,max(Tolls_amount) as tolls_payed
   FROM tripdata
@@ -56,10 +45,9 @@ for i in range(0,10):
   query2.collect()
   end = time.time()
 
-  print("Start is" , start,"End is",end)
 
   query_time += end - start
-  print("Query Time is",query_time)
+ 
 avg_query_time = query_time/10
 print("Average query time:", avg_query_time)
 spark.stop()
