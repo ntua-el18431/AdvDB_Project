@@ -28,8 +28,6 @@ for i in range(0,10):
           
   start = time.time()
   
-
-  
   
   tripdataTip= tripdata_df.withColumn("Tip",(tripdata_df.tip_amount/tripdata_df.fare_amount))
   tripdataTipDay = tripdataTip.withColumn("Day",dayofmonth(tripdataTip.tpep_pickup_datetime))
@@ -58,7 +56,7 @@ for i in range(0,10):
   result.collect()
   end = time.time()
   query_time += end - start
-  total_time += end - start
+  
 
 avg_query_time = query_time/10
 
