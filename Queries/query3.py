@@ -22,26 +22,17 @@ tripdata_files_path_list = ["yellow_tripdata_2022-01.parquet",
                     "yellow_tripdata_2022-06.parquet"]
 
 tripdata_df = spark.read.parquet("hdfs://master:9000/taxi_data/*.parquet")
+# Iterate 10 times in order to calculate an average time of query execution
 for i in range(0,10):
   
-  
+  #start timer
   start = time.time()
   
-
-  
-  
-  
-  
-  #tripdata_df_filterted = tripdata_df.filter((year(col("tpep_pickup_datetime")) == 2022) & (month(col("tpep_pickup_datetime")) <= 6))
-  #tripdata_df_15days = tripdata_df_filterted.withColumn("15days",floor(dayofyear(tripdata_df_filterted.tpep_pickup_datetime)/15 + 1))
+  #insert a new column that corresponds to each 15 days of the first six months (1-13)
   tripdata_df_15days = tripdata_df.withColumn("15days",floor(dayofyear(tripdata_df.tpep_pickup_datetime)/15 + 1))
-  #tripdata_df_15days.createOrReplaceTempView("tripdata")
   tripdata_df_15days.createOrReplaceTempView("tripdata")
   
- 
-  
-  
-  
+
   
   query3 = spark.sql("""SELECT avg(Total_amount),avg(Trip_distance),15days
   from tripdata
@@ -54,10 +45,10 @@ for i in range(0,10):
   
   query3.collect()
   end = time.time()
-  
+  #end timer
   query_time += end - start
 
-
+#calculate average
 avg_query_time = query_time/10
 
 
